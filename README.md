@@ -46,3 +46,14 @@ python3 tesla_gui.py
 Nach dem Start werden die Fahrzeugdaten abgerufen und in übersichtlichen
 Abschnitten dargestellt. Über den Button „Aktualisieren" lassen sich die
 Werte jederzeit neu laden.
+
+## OAuth Login
+
+Für die Anmeldung per OAuth müssen bestimmte Umgebungsvariablen gesetzt sein.
+Um Flask-Sitzungen sicher zu signieren, wird insbesondere `FLASK_SECRET_KEY`
+benötigt.
+
+```bash
+export FLASK_SECRET_KEY=ein_geheimer_schlüssel
+```
+
