@@ -46,3 +46,15 @@ python3 tesla_gui.py
 Nach dem Start werden die Fahrzeugdaten abgerufen und in übersichtlichen
 Abschnitten dargestellt. Über den Button „Aktualisieren" lassen sich die
 Werte jederzeit neu laden.
+
+## Browserbasiertes Login
+
+Um die Tesla-Anmeldeseite im Browser zu öffnen und ein frisches API-Token zu erhalten,
+kann die GUI mit dem Parameter `--login` gestartet werden:
+
+```bash
+python3 tesla_gui.py --login
+```
+
+Nach erfolgreicher Anmeldung wird der Token angezeigt, den du anschließend als
+`TESLA_TOKEN` setzen kannst.

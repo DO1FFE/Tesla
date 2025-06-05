@@ -1,9 +1,13 @@
 import json
 import os
+import sys
+import webbrowser
 import tkinter as tk
 from tkinter import messagebox
 from tkinter.scrolledtext import ScrolledText
 from urllib import request, error
+
+LOGIN_URL = "https://auth.tesla.com/"
 
 API_BASE = "https://owner-api.teslamotors.com/api/1"
 
@@ -115,6 +119,9 @@ class TeslaApp:
         self.text.insert(tk.END, self._format_data(data))
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = TeslaApp(root)
-    root.mainloop()
+    if "--login" in sys.argv:
+        webbrowser.open(LOGIN_URL)
+    else:
+        root = tk.Tk()
+        app = TeslaApp(root)
+        root.mainloop()
