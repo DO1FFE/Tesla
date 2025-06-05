@@ -23,7 +23,8 @@ deines Servers). Wenn kein Token in `TESLA_TOKEN` vorhanden ist, kannst du dich
 über `/login` per OAuth anmelden.
 
 Die Anwendung ruft dein erstes registriertes Fahrzeug ab und zeigt dessen
-Status, Innen- und Außentemperatur sowie den Batteriestand an. 
+Status, Innen- und Außentemperatur sowie den Batteriestand an. Zusätzlich wird
+eine kleine Karte mit der aktuellen Position des Fahrzeugs eingeblendet.
 Ein Klick auf „Aktualisieren“ lädt die Seite neu.
 
 ## Tkinter-GUI
