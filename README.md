@@ -60,3 +60,17 @@ Optional lassen sich `TESLA_CLIENT_ID` und `TESLA_REDIRECT_URI` anpassen,
 standardmäßig wird jedoch der offizielle `ownerapi`-Client und
 `http://localhost:8066/oauth/callback` verwendet.
 
+
+## Android-App (Kivy)
+
+Neben der Desktop- und Webvariante gibt es nun auch ein einfaches Kivy-Programm, 
+das sich zu einer Android-APK bauen lässt. Es zeigt die gleichen Fahrzeugdaten an 
+wie die Tkinter-GUI.
+
+1. Kivy und Buildozer installieren (am besten in einer Python-Virtualenv).
+2. Mit `buildozer init` eine Buildozer-Konfiguration erzeugen und in `buildozer.spec`
+   den Python-Quellcode `tesla_android.py` eintragen.
+3. Anschließend kann die APK mit `buildozer -v android debug` gebaut werden.
+
+Vor dem Start muss wie gewohnt die Umgebungsvariable `TESLA_TOKEN` gesetzt sein.
+
