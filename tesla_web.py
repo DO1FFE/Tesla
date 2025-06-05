@@ -1,7 +1,8 @@
 import json
 import os
+import secrets
 from urllib import request, error
-from flask import Flask, Response
+from flask import Flask, Response, redirect, request as flask_request, session, url_for
 
 API_BASE = "https://owner-api.teslamotors.com/api/1"
 
@@ -28,6 +29,34 @@ class TeslaClient:
         return data.get("response", {})
 
 app = Flask(__name__)
+app.secret_key = os.getenv('FLASK_SECRET', 'change-me')
+
+
+@app.route('/login')
+def login():
+    """Start OAuth flow and store state in session."""
+    state = secrets.token_urlsafe(16)
+    session['oauth_state'] = state
+    redirect_uri = url_for('callback', _external=True)
+    auth_url = (
+        "https://auth.tesla.com/oauth2/v3/authorize?"
+        "client_id=ownerapi&response_type=code"
+        f"&redirect_uri={redirect_uri}&state={state}"
+    )
+    return redirect(auth_url)
+
+
+@app.route('/callback')
+def callback():
+    """Handle OAuth callback and validate state."""
+    stored_state = session.get('oauth_state')
+    returned_state = flask_request.args.get('state')
+    if not stored_state or stored_state != returned_state:
+        return Response('Invalid state parameter', status=400)
+
+    session.pop('oauth_state', None)
+    code = flask_request.args.get('code')
+    return f'Received code: {code}'
 
 @app.route('/')
 def index():
