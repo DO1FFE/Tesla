@@ -52,16 +52,30 @@ def index():
 
     climate = data.get('climate_state', {})
     charge_state = data.get('charge_state', {})
+    drive_state = data.get('drive_state', {})
     state = data.get('state', 'unbekannt')
     temp_in = climate.get('inside_temp', 'N/A')
     temp_out = climate.get('outside_temp', 'N/A')
     battery = charge_state.get('battery_level', 'N/A')
+    lat = drive_state.get('latitude')
+    lon = drive_state.get('longitude')
 
     html = f"""
     <html>
     <head>
         <meta charset='utf-8'>
         <title>Tesla Model S Anzeige</title>
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+            integrity="sha256-sA+e2LYCNyZWFuoL1snzAkCNMAdg72yzp7b2uJZi+X0="
+            crossorigin=""
+        />
+        <script
+            src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-GZ0jM8CX/tD+07r9qza1cS2H91TGaE/fhXxzT6iZl/k="
+            crossorigin=""
+        ></script>
     </head>
     <body>
         <h1>Tesla Model S Anzeige</h1>
@@ -69,6 +83,21 @@ def index():
         <p><strong>Innen-Temperatur:</strong> {temp_in} °C</p>
         <p><strong>Außen-Temperatur:</strong> {temp_out} °C</p>
         <p><strong>Batteriestand:</strong> {battery}%</p>
+        <div id="map" style="height: 300px;"></div>
+        <script>
+            var map = L.map('map').setView([
+                {lat if lat is not None else 0},
+                {lon if lon is not None else 0}
+            ], 13);
+            L.tileLayer(
+                'https://tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png',
+                {{'maxZoom': 19, 'attribution': '&copy; OpenStreetMap contributors'}}
+            ).addTo(map);
+            L.marker([
+                {lat if lat is not None else 0},
+                {lon if lon is not None else 0}
+            ]).addTo(map);
+        </script>
         <a href='/'>Aktualisieren</a>
     </body>
     </html>
