@@ -12,6 +12,7 @@ how to authenticate with Tesla's OAuth service and access the Owner API.
 
 2. Start the web application:
    ```bash
+   pip install -r requirements.txt
    python tesla_web.py
    ```
 
