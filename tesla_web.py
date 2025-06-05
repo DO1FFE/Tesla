@@ -60,24 +60,62 @@ def index():
 
     climate = data.get('climate_state', {})
     charge_state = data.get('charge_state', {})
+    drive_state = data.get('drive_state', {})
     state = data.get('state', 'unbekannt')
     temp_in = climate.get('inside_temp', 'N/A')
     temp_out = climate.get('outside_temp', 'N/A')
     battery = charge_state.get('battery_level', 'N/A')
+    latitude = drive_state.get('latitude')
+    longitude = drive_state.get('longitude')
+
+    map_html = ""
+    if latitude is not None and longitude is not None:
+        map_url = (
+            f"https://maps.google.com/maps?q={latitude},{longitude}&z=15&output=embed"
+        )
+        map_html = f"<iframe src='{map_url}'></iframe>"
 
     html = f"""
     <html>
     <head>
         <meta charset='utf-8'>
         <title>Tesla Model S Anzeige</title>
+        <style>
+            body {{
+                font-family: Arial, sans-serif;
+                background-color: #f8f8f8;
+                color: #333;
+                padding: 20px;
+            }}
+            .container {{
+                background: #fff;
+                border-radius: 8px;
+                padding: 20px;
+                max-width: 500px;
+                margin: auto;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }}
+            h1 {{
+                text-align: center;
+            }}
+            iframe {{
+                width: 100%;
+                height: 300px;
+                border: none;
+                margin-top: 10px;
+            }}
+        </style>
     </head>
     <body>
-        <h1>Tesla Model S Anzeige</h1>
-        <p><strong>Fahrzeugstatus:</strong> {state}</p>
-        <p><strong>Innen-Temperatur:</strong> {temp_in} °C</p>
-        <p><strong>Außen-Temperatur:</strong> {temp_out} °C</p>
-        <p><strong>Batteriestand:</strong> {battery}%</p>
-        <a href='/'>Aktualisieren</a>
+        <div class='container'>
+            <h1>Tesla Model S Anzeige</h1>
+            <p><strong>Fahrzeugstatus:</strong> {state}</p>
+            <p><strong>Innen-Temperatur:</strong> {temp_in} °C</p>
+            <p><strong>Außen-Temperatur:</strong> {temp_out} °C</p>
+            <p><strong>Batteriestand:</strong> {battery}%</p>
+            {map_html}
+            <p><a href='/'>Aktualisieren</a></p>
+        </div>
     </body>
     </html>
     """
