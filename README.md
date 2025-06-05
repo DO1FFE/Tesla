@@ -39,8 +39,10 @@ python3 tesla_gui.py
 ```
 
 Nach dem Start werden die Fahrzeugdaten abgerufen und in übersichtlichen
-Abschnitten dargestellt. Über den Button „Aktualisieren" lassen sich die
-Werte jederzeit neu laden.
+Abschnitten dargestellt. Die Werte werden alle 10&nbsp;Sekunden automatisch
+aktualisiert und zeigen neben Temperatur und Batteriestand jetzt auch den
+Kilometerstand sowie die Reifendrücke an. Über den Button „Aktualisieren" lässt
+sich die Aktualisierung auch manuell anstoßen.
 
 ## OAuth Login
 
