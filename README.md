@@ -8,26 +8,19 @@ Grundinformationen eines Tesla-Fahrzeugs über die Tesla Owner API anzeigt.
 * Python 3
 * Flask (`pip install flask`)
 * Netzwerkzugriff auf die Tesla Owner API
-* Ein gültiges Tesla-API-Token, gespeichert in der Umgebungsvariable
-  `TESLA_TOKEN`
+* Entweder ein bereits erzeugtes Tesla-API-Token in der Umgebungsvariable
+  `TESLA_TOKEN` oder ein Login über den integrierten OAuth-Fluss
 
 ## Verwendung
 
-1. Einen Zugangstoken für dein Tesla-Konto erstellen.
-2. Die Umgebungsvariable `TESLA_TOKEN` setzen:
-
-```bash
-export TESLA_TOKEN=dein_token
-```
-
-3. Die Webanwendung starten:
+1. Die Webanwendung starten:
 
 ```bash
 python3 tesla_web.py
 ```
-
-4. Im Browser `http://localhost:8066/` öffnen (oder die entsprechende Adresse
-deines Servers), um den Fahrzeugstatus zu sehen.
+2. Im Browser `http://localhost:8066/` öffnen (oder die entsprechende Adresse
+deines Servers). Wenn kein Token in `TESLA_TOKEN` vorhanden ist, kannst du dich
+über `/login` per OAuth anmelden.
 
 Die Anwendung ruft dein erstes registriertes Fahrzeug ab und zeigt dessen
 Status, Innen- und Außentemperatur sowie den Batteriestand an. 
@@ -49,11 +42,17 @@ Werte jederzeit neu laden.
 
 ## OAuth Login
 
-Für die Anmeldung per OAuth müssen bestimmte Umgebungsvariablen gesetzt sein.
-Um Flask-Sitzungen sicher zu signieren, wird insbesondere `FLASK_SECRET_KEY`
-benötigt.
+Für die Anmeldung per OAuth muss Flask einen geheimen Schlüssel besitzen.
+Setze dafür die Variable `FLASK_SECRET_KEY`:
 
 ```bash
-export FLASK_SECRET_KEY=ein_geheimer_schlüssel
+export FLASK_SECRET_KEY=ein_geheimer_schluessel
 ```
+
+Danach kann die Anmeldung über `/login` gestartet werden. Tesla leitet nach
+dem Login auf `/oauth/callback` zurück und das erhaltene Access-Token wird in
+der Sitzung gespeichert.
+Optional lassen sich `TESLA_CLIENT_ID` und `TESLA_REDIRECT_URI` anpassen,
+standardmäßig wird jedoch der offizielle `ownerapi`-Client und
+`http://localhost:8066/oauth/callback` verwendet.
 
